@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.dotweblabs.todogwt</groupId>
+  <version>0-SNAPSHOT</version>
+  <artifactId>todogwt</artifactId>
+  <packaging>gwt-app</packaging>
+  <name>todogwt</name>
+
+  <prerequisites>
+    <maven>${mavenVersion}</maven>
+  </prerequisites>
+
+  <properties>
+      <errai.version>4.0.2.Final</errai.version>
+      <gwt.version>2.8.1</gwt.version>
+      <gwt.maven.plugin.version>1.0-rc-6</gwt.maven.plugin.version>
+      <slf4j.version>1.5.11</slf4j.version>
+      <javaee.version>1.0.2.Final</javaee.version>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <mavenVersion>3.0</mavenVersion>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
+    </dependency>
+      <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-javaee-all</artifactId>
+          <version>${errai.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-cdi-jboss</artifactId>
+          <version>${errai.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.errai</groupId>
+          <artifactId>errai-cdi-server</artifactId>
+          <version>${errai.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.gwt</groupId>
+          <artifactId>gwt-elemental</artifactId>
+          <version>${gwt.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.googlecode.gwtquery</groupId>
+          <artifactId>gwtquery</artifactId>
+          <version>1.5-beta1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.parseplatform</groupId>
+          <artifactId>parse-gwt</artifactId>
+          <version>0-SNAPSHOT</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>com.dotweblabs.shape</groupId>
+                  <artifactId>shape</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+          <groupId>com.dotweblabs</groupId>
+          <artifactId>shape</artifactId>
+          <version>0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.spec</groupId>
+          <artifactId>jboss-javaee-7.0</artifactId>
+          <version>${javaee.version}</version>
+          <type>pom</type>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>23.0</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava-gwt</artifactId>
+          <version>23.0</version>
+      </dependency>
+      <!--dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+      </dependency-->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>3.8.2</version>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+
+    <!-- These must be here in this order because of missing guava-gwt snapshots in the JBoss Public Repository. -->
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-dotweblabs-maven</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/dotweblabs/maven</url>
+        </repository>
+        <repository>
+            <id>jboss</id>
+            <name>JBoss Public Repo</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>sonatype-public</id>
+            <name>Sonatype Public Snapshots Repo</name>
+            <url>https://oss.sonatype.org/content/repositories/public</url>
+        </repository>
+    </repositories>
+
+  <build>
+      <resources>
+          <resource>
+              <directory>src/main/java</directory>
+          </resource>
+          <resource>
+              <directory>src/main/resources</directory>
+          </resource>
+      </resources>
+    <plugins>
+        <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>2.4.1</version>
+            <executions>
+                <execution>
+                    <id>auto-clean</id>
+                    <phase>initialize</phase>
+                    <goals>
+                        <goal>clean</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>1.0-rc-6</version>
+        <extensions>true</extensions>
+        <configuration>
+          <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
+          <moduleName>com.dotweblabs.todogwt.App</moduleName>
+          <moduleShortName>app</moduleShortName>
+          <startupUrls>
+              <startupUrl>app/index.html</startupUrl>
+          </startupUrls>
+          <failOnError>false</failOnError>
+          <localWorkers>8</localWorkers>
+
+          <!-- Enable these config for faster GWT run: -->
+          <draftCompile>false</draftCompile>
+          <optimize>9</optimize>
+          <style>OBFUSCATED</style>
+
+          <!-- Enable these config for smaller GWT app: -->
+          <!--<draftCompile>false</draftCompile>-->
+          <!--<optimize>9</optimize>-->
+          <!--<style>OBFUSCATED</style>-->
+
+          <!-- Other optimization flags -->
+          <!--<compilerArgs>-XdisableClassMetadata</compilerArgs>-->
+          <!--<compilerArgs>-XdisableCastChecking</compilerArgs>-->
+          <!--<compilerArgs>-XclosureFormattedOutput</compilerArgs>-->
+
+        </configuration>
+      </plugin>
+        <!-- War -->
+        <!-- run: mvn clean package -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <webappDirectory>${project.build.directory}/gwt/devmode/war</webappDirectory>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>copy-war-contents</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>exploded</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
+</project>
