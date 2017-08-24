@@ -106,6 +106,11 @@
     <!-- These must be here in this order because of missing guava-gwt snapshots in the JBoss Public Repository. -->
     <repositories>
         <repository>
+            <id>bintray-dotweblabs-parse</id>
+            <name>oss-jfrog-artifactory-snapshots</name>
+            <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+        </repository>
+        <repository>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -124,7 +129,16 @@
             <url>https://oss.sonatype.org/content/repositories/public</url>
         </repository>
     </repositories>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-dotweblabs-maven</id>
+            <name>bintray-plugins</name>
+            <url>http://dl.bintray.com/dotweblabs/maven</url>
+        </pluginRepository>
+    </pluginRepositories>
   <build>
       <resources>
           <resource>
