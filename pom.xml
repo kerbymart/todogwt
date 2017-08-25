@@ -102,9 +102,8 @@
           <scope>test</scope>
       </dependency>
   </dependencies>
-
-    <!-- These must be here in this order because of missing guava-gwt snapshots in the JBoss Public Repository. -->
-    <repositories>
+  <!-- These must be here in this order because of missing guava-gwt snapshots in the JBoss Public Repository. -->
+  <repositories>
         <repository>
             <id>bintray-dotweblabs-parse</id>
             <name>oss-jfrog-artifactory-snapshots</name>
@@ -129,7 +128,7 @@
             <url>https://oss.sonatype.org/content/repositories/public</url>
         </repository>
     </repositories>
-    <pluginRepositories>
+  <pluginRepositories>
         <pluginRepository>
             <snapshots>
                 <enabled>false</enabled>

@@ -1,3 +1,77 @@
-<div>
-    TODO
+<div id="todoapp">
+    <div class="title">
+        <h1>Todo</h1>
+    </div>
+
+    <div id="create-todo">
+        <input class="new-todo" placeholder="What needs to be done?">
+    </div>
+
+    <div class="todos">
+        <ul id="todo-list">
+            <li>
+                <div class="todo">
+                    <div class="display">
+                        <input type="checkbox" class="check">
+                        <div class="todo-text">Drink milk</div>
+                        <a href="#" class="todo-destroy">x</a>
+                    </div>
+                    <div class="edit">
+                        <form>
+                            <input>
+                        </form>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="todo">
+                    <div class="display">
+                        <input type="checkbox" class="check">
+                        <div class="todo-text">Eat food</div>
+                        <a href="#" class="todo-destroy">x</a>
+                    </div>
+                    <div class="edit">
+                        <form>
+                            <input>
+                        </form>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="todo">
+                    <div class="display">
+                        <input type="checkbox" class="check">
+                        <div class="todo-text">Snowboard</div>
+                        <a href="#" class="todo-destroy">x</a>
+                    </div>
+                    <div class="edit">
+                        <form>
+                            <input>
+                        </form>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="todo editing">
+                    <div class="display">
+                        <input type="checkbox" class="check">
+                        <div class="todo-text">asdfasdf</div>
+                        <a href="#" class="todo-destroy">x</a>
+                    </div>
+                    <div class="edit">
+                        <form>
+                            <input>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    You have <span id="todo-count"></span> incomplete task(s)
+    <span id="milk-time" class="uk-hidden"> - its milk time!</span>
+    <a id="clear-completed" style="display: none;">Clear Completed Tasks</a>
 </div>
