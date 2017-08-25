@@ -6,11 +6,8 @@ import com.dotweblabs.todogwt.client.local.model.Todo;
 import com.dotweblabs.todogwt.client.local.model.TodoWrapper;
 import com.dotweblabs.todogwt.client.local.repository.TodoRepository;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 import org.jboss.errai.common.client.logging.util.Console;
 import org.jboss.errai.ui.client.widget.HasModel;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
@@ -38,6 +35,10 @@ public class TodoItem extends Composite implements HasModel<Todo> {
     Anchor todoDestroy;
 
     @Inject
+    @DataField("edit-text")
+    TextBox editText;
+
+    @Inject
     TodoRepository repository;
 
     @Inject
@@ -47,6 +48,31 @@ public class TodoItem extends Composite implements HasModel<Todo> {
     @Inject
     @Updated
     Event<TodoWrapper> updated;
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        final int index = getElementIndex(this.getElement());
+        final Element first = this.getElement().getFirstChildElement();
+
+        text.addDoubleClickHandler(new DoubleClickHandler() {
+            public void onDoubleClick(DoubleClickEvent doubleClickEvent) {
+                first.addClassName("editing");
+                editText.setText(text.getText());
+            }
+        });
+
+        editText.addKeyUpHandler(new KeyUpHandler() {
+            public void onKeyUp(KeyUpEvent keyUpEvent) {
+                if(keyUpEvent.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+                    Todo todo = new Todo(editText.getText(), false);
+                    repository.updateTodo(index, todo);
+                    first.removeClassName("editing");
+                    setModel(todo);
+                }
+            }
+        });
+    }
 
     public Todo getModel() {
         return model;

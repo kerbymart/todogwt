@@ -33,6 +33,13 @@ public class TodoRepository {
         return count;
     }
 
+    public void updateTodo(int index, Todo todo) {
+        if(todoMap == null) {
+            todoMap = new LinkedHashMap<Integer, Todo>();
+        }
+        todoMap.put(index, todo);
+    }
+
     public void addTodo(Todo todo) {
         if(todoMap == null) {
             todoMap = new LinkedHashMap<Integer, Todo>();
