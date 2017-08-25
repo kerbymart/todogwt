@@ -7,17 +7,20 @@ import com.dotweblabs.todogwt.client.local.model.TodoWrapper;
 import com.dotweblabs.todogwt.client.local.repository.TodoRepository;
 import com.dotweblabs.todogwt.client.local.widget.TodoItem;
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import org.jboss.errai.common.client.logging.util.Console;
 import org.jboss.errai.ui.nav.client.local.DefaultPage;
 import org.jboss.errai.ui.nav.client.local.Page;
 import org.jboss.errai.ui.nav.client.local.PageShowing;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
+import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import javax.annotation.PostConstruct;
@@ -65,6 +68,11 @@ public class WelcomePage extends Composite {
     @Named("span")
     SpanElement milkTime;
 
+    @Inject
+    @DataField("clear-completed")
+    @Named("span")
+    SpanElement clearCompleted;
+
     @PostConstruct
     public void init() {
         newTodo.addKeyUpHandler(new KeyUpHandler() {
@@ -98,14 +106,32 @@ public class WelcomePage extends Composite {
         }
     }
 
+    @EventHandler("clear-completed")
+    public void clear(ClickEvent event) {
+        event.preventDefault();
+        for(Widget w : rows){
+            TodoItem item = (TodoItem) w;
+            Todo todo = item.getModel();
+            if(todo.getDone()) {
+                item.removeFromParent();
+            }
+        }
+    }
+
     private void countTodos() {
         int count = repository.countNotDone();
+        int total = repository.count();
         Console.log("Count: " + count);
         todoCount.setInnerText(count + "");
         if(count > 0) {
-            milkTime.addClassName("uk-hidden");
+            milkTime.setAttribute("style", "display: none;");
         } else {
-            milkTime.removeClassName("uk-hidden");
+            milkTime.removeAttribute("style");
+        }
+        if(total > 0) {
+            clearCompleted.removeAttribute("style");
+        } else {
+            clearCompleted.setAttribute("style", "display: none;");
         }
     }
 
