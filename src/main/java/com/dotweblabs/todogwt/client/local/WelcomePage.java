@@ -119,13 +119,13 @@ public class WelcomePage extends Composite {
     }
 
     public void updated(@Observes @Updated TodoWrapper wrapper) {
+        Console.log("Updated");
         if(wrapper != null && wrapper.getTodo() != null) {
             Console.log("Index: "  + wrapper.getIndex());
             Console.log("Done: "  + wrapper.getTodo().getDone());
             repository.setDone(wrapper.getIndex(), wrapper.getTodo().getDone());
-            countTodos();
         }
-
+        countTodos();
     }
 
 }

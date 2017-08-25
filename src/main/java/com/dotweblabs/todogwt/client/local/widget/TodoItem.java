@@ -85,9 +85,8 @@ public class TodoItem extends Composite implements HasModel<Todo> {
 
     @EventHandler("todo-check")
     public void check(ClickEvent event) {
-        //event.preventDefault();
+        Console.log(todoCheck.getValue() + "");
         if(this.getModel() != null) {
-            Console.log(todoCheck.getValue() + "");
             this.model.setDone(todoCheck.getValue());
             if(todoCheck.getValue()) {
                 this.getElement().addClassName("done");
