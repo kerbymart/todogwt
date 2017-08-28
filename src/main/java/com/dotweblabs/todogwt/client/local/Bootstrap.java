@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 import org.jboss.errai.ui.nav.client.local.Navigation;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.parseplatform.client.Parse;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,9 +28,9 @@ public class Bootstrap extends Composite {
 
     @PostConstruct
     public void buildUI() {
-        //Parse.setServerUrl("");
-        //Parse.initialize("myAppId", "myParseRestAPIKey");
-        //Parse.initializeJavascriptKey("myJavascriptKey");
+        Parse.setServerUrl("http://localhost:1337/parse");
+        Parse.initialize("myAppId", "myRestAPIKey");
+        Parse.initializeJavascriptKey("myJavascriptKey");
         RootPanel.get("rootPanel").add(this);
     }
 

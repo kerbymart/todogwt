@@ -2,6 +2,7 @@ package com.dotweblabs.todogwt.client.local.model;
 
 public class Todo {
 
+    private String objectId;
     private String todo;
     private Boolean isDone;
 
@@ -24,5 +25,13 @@ public class Todo {
 
     public void setDone(Boolean done) {
         isDone = done;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }

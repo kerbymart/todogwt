@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -80,15 +82,24 @@ public class WelcomePage extends Composite {
                 if(keyUpEvent.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 
                     Todo todo = new Todo(newTodo.getText(), false);
-                    repository.addTodo(todo);
+                    repository.addTodo(todo, new AsyncCallback<Todo>() {
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            Console.log(throwable.getMessage());
+                        }
+                        @Override
+                        public void onSuccess(Todo todo) {
+                            TodoItem item = todoItems.get();
+                            item.setModel(todo);
+                            rows.add(item);
 
-                    TodoItem item = todoItems.get();
-                    item.setModel(todo);
-                    rows.add(item);
+                            newTodo.setText("");
 
-                    newTodo.setText("");
+                            countTodos();
+                        }
+                    });
 
-                    countTodos();
+
                 }
             }
         });
@@ -98,12 +109,25 @@ public class WelcomePage extends Composite {
     public void showing() {
         countTodos();
         rows.clear();
-        List<Todo> todoList = repository.listTodo();
-        for(Todo todo : todoList) {
-            TodoItem item = todoItems.get();
-            item.setModel(todo);
-            rows.add(item);
-        }
+        repository.listTodo(new AsyncCallback<List<Todo>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                //Window.alert(throwable.getMessage());
+                Console.log(throwable.getMessage());
+            }
+            @Override
+            public void onSuccess(List<Todo> todos) {
+                //Window.alert("Todos: " + todos.size());
+                if(todos != null) {
+                    for(Todo todo : todos) {
+                        TodoItem item = todoItems.get();
+                        item.setModel(todo);
+                        rows.add(item);
+                    }
+                }
+            }
+        });
+
     }
 
     @EventHandler("clear-completed")
@@ -139,6 +163,7 @@ public class WelcomePage extends Composite {
         if(wrapper != null && wrapper.getTodo() != null) {
             Console.log("Removed: " + wrapper.getIndex());
             Todo todo = wrapper.getTodo();
+            repository.remove(todo.getObjectId());
 
         }
         countTodos();
@@ -149,9 +174,20 @@ public class WelcomePage extends Composite {
         if(wrapper != null && wrapper.getTodo() != null) {
             Console.log("Index: "  + wrapper.getIndex());
             Console.log("Done: "  + wrapper.getTodo().getDone());
-            repository.setDone(wrapper.getIndex(), wrapper.getTodo().getDone());
+            //repository.setDone(wrapper.getIndex(), wrapper.getTodo().getDone());
+            String objectId = wrapper.getTodo().getObjectId();
+            repository.setDone(objectId, wrapper.getTodo().getDone(), new AsyncCallback<Todo>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+
+                }
+                @Override
+                public void onSuccess(Todo todo) {
+                    countTodos();
+                }
+            });
         }
-        countTodos();
+
     }
 
 }

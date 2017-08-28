@@ -177,9 +177,9 @@
           <localWorkers>8</localWorkers>
 
           <!-- Enable these config for faster GWT run: -->
-          <draftCompile>false</draftCompile>
-          <optimize>9</optimize>
-          <style>OBFUSCATED</style>
+          <draftCompile>true</draftCompile>
+          <optimize>0</optimize>
+          <style>PRETTY</style>
 
           <!-- Enable these config for smaller GWT app: -->
           <!--<draftCompile>false</draftCompile>-->
@@ -211,6 +211,14 @@
                     </goals>
                 </execution>
             </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.6</source>
+                <target>1.6</target>
+            </configuration>
         </plugin>
     </plugins>
   </build>
