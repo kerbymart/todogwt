@@ -6,10 +6,7 @@ import com.dotweblabs.todogwt.client.local.model.Todo;
 import com.google.gwt.json.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.jboss.errai.common.client.logging.util.Console;
-import org.parseplatform.client.Parse;
-import org.parseplatform.client.ParseObject;
-import org.parseplatform.client.ParseResponse;
-import org.parseplatform.client.Where;
+import org.parseplatform.client.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
@@ -49,7 +46,7 @@ public class TodoRepository {
         todoMap.put(index, todo);
     }
 
-    public void addTodo(final Todo todo, final AsyncCallback<Todo> callback) {
+    public void addTodo(final Todo todo, final ParseAsyncCallback<Todo> callback) {
         if(todoMap == null) {
             todoMap = new LinkedHashMap<Integer, Todo>();
         }
@@ -58,13 +55,12 @@ public class TodoRepository {
         ParseObject testObject = new ParseObject("Todo");
         testObject.put("todo", new JSONString(todo.getTodo()));
         testObject.put("isDone", JSONBoolean.getInstance(todo.getDone()));
-        Parse.Objects.create(testObject, new AsyncCallback<ParseResponse>() {
+        testObject.create(new ParseAsyncCallback<ParseResponse>() {
             @Override
-            public void onFailure(Throwable throwable) {
-                HttpRequestException ex = (HttpRequestException) throwable;
-                Console.log("POST Error: " + ex.getCode());
-                callback.onFailure(throwable);
+            public void onFailure(ParseError parseError) {
+                callback.onFailure(parseError);
             }
+
             @Override
             public void onSuccess(ParseResponse parseResponse) {
                 Console.log("POST Success objectId: " + parseResponse.getObjectId() + " createdAt: " + parseResponse.getCreatedAt());
@@ -74,14 +70,14 @@ public class TodoRepository {
         });
     }
 
-    public void setDone(String objectId, Boolean isDone, final AsyncCallback<Todo> callback) {
+    public void setDone(String objectId, Boolean isDone, final ParseAsyncCallback<Todo> callback) {
         ParseObject testObject = new ParseObject("Todo");
         testObject.put("isDone", JSONBoolean.getInstance(isDone));
         testObject.setObjectId(objectId);
-        Parse.Objects.update(testObject, new AsyncCallback<ParseResponse>() {
+        testObject.create(new ParseAsyncCallback<ParseResponse>() {
             @Override
-            public void onFailure(Throwable throwable) {
-                callback.onFailure(throwable);
+            public void onFailure(ParseError parseError) {
+                callback.onFailure(parseError);
             }
             @Override
             public void onSuccess(ParseResponse parseResponse) {
@@ -116,13 +112,14 @@ public class TodoRepository {
     public void remove(String objectId) {
         ParseObject ref = new ParseObject("Todo");
         ref.setObjectId(objectId);
-        Parse.Objects.delete(ref, new AsyncCallback<ParseResponse>() {
+        ref.delete(new ParseAsyncCallback<ParseResponse>() {
             @Override
-            public void onFailure(Throwable throwable) {
+            public void onFailure(ParseError parseError) {
 
             }
+
             @Override
-            public void onSuccess(ParseResponse parseResponse) {
+            public void onSuccess(ParseResponse response) {
 
             }
         });

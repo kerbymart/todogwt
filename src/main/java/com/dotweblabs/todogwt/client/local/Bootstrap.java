@@ -28,9 +28,7 @@ public class Bootstrap extends Composite {
 
     @PostConstruct
     public void buildUI() {
-        Parse.setServerUrl("http://localhost:1337/parse");
-        Parse.initialize("myAppId", "myRestAPIKey");
-        Parse.initializeJavascriptKey("myJavascriptKey");
+        Parse.initialize("http://localhost:1337/parse","myAppId", "myRestAPIKey", "myJavascriptKey", null);
         RootPanel.get("rootPanel").add(this);
     }
 

@@ -24,6 +24,8 @@ import org.jboss.errai.ui.nav.client.local.PageShowing;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.parseplatform.client.ParseAsyncCallback;
+import org.parseplatform.client.ParseError;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -82,10 +84,10 @@ public class WelcomePage extends Composite {
                 if(keyUpEvent.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 
                     Todo todo = new Todo(newTodo.getText(), false);
-                    repository.addTodo(todo, new AsyncCallback<Todo>() {
+                    repository.addTodo(todo, new ParseAsyncCallback<Todo>() {
                         @Override
-                        public void onFailure(Throwable throwable) {
-                            Console.log(throwable.getMessage());
+                        public void onFailure(ParseError throwable) {
+                            Console.log(throwable.getError());
                         }
                         @Override
                         public void onSuccess(Todo todo) {
@@ -176,9 +178,9 @@ public class WelcomePage extends Composite {
             Console.log("Done: "  + wrapper.getTodo().getDone());
             //repository.setDone(wrapper.getIndex(), wrapper.getTodo().getDone());
             String objectId = wrapper.getTodo().getObjectId();
-            repository.setDone(objectId, wrapper.getTodo().getDone(), new AsyncCallback<Todo>() {
+            repository.setDone(objectId, wrapper.getTodo().getDone(), new ParseAsyncCallback<Todo>() {
                 @Override
-                public void onFailure(Throwable throwable) {
+                public void onFailure(ParseError throwable) {
 
                 }
                 @Override
