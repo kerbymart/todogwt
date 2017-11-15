@@ -125,7 +125,7 @@
       <dependency>
           <groupId>org.parseplatform</groupId>
           <artifactId>parse-gwt</artifactId>
-          <version>XAPI-SNAPSHOT</version>
+          <version>0-SNAPSHOT</version>
           <!--<exclusions>-->
               <!--<exclusion>-->
                   <!--<groupId>com.dotweblabs.shape</groupId>-->
@@ -177,6 +177,11 @@
           <artifactId>junit</artifactId>
           <version>3.8.2</version>
           <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.eclipse.jdt.core</groupId>
+          <artifactId>org.eclipse.jdt.core</artifactId>
+          <version>3.14.0.Xapi</version>
       </dependency>
   </dependencies>
   <!-- These must be here in this order because of missing guava-gwt snapshots in the JBoss Public Repository. -->
@@ -304,8 +309,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-                <source>1.6</source>
-                <target>1.6</target>
+                <source>1.8</source>
+                <target>1.8</target>
             </configuration>
         </plugin>
     </plugins>
